@@ -15,6 +15,7 @@ class EventsController < ApplicationController
   def create
     @event = current_user.created_events.build(event_params)
     if @event.save
+      current_user.attend(@event)
       flash[:success] = "Event created"
       redirect_to events_path
     else
@@ -25,7 +26,7 @@ class EventsController < ApplicationController
 
   private
     def event_params
-      params.require(:event).permit(:description)
+      params.require(:event).permit(:description, :datum, :invite_required)
     end
 
 end

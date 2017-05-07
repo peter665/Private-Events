@@ -1,11 +1,21 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h1>Create an Event</h1>
-      <%= form_for @event do |f| %>
+    <%= form_for @event do |f| %>
       <div class="form-group">
         <%= f.label :description %>
         <%= f.text_field :description, class: 'form-control' %>
       </div>
+      <div class="form-group">
+        <%= f.label :date %>
+        <%= f.datetime_select :datum, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label "Invite Required?" %>
+        <%= f.check_box :invite_required %>
+      </div>
+
       <%= f.submit 'Submit', class: "btn btn-primary" %>
     <% end %>
   </div>

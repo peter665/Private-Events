@@ -2,14 +2,25 @@
   <div class="col-md-3 col-md-offset-2">
     <h1><%= @user.name %></h1>
     <p>
-      Welcome to your profile page <%= @user.name %>!
+      Welcome to the profile page of <%= @user.name %>!
     </p>
   </div>
   <div class="col-md-6 col-md-offset-1">
+    <h3>Upcomming events</h3>
     <ol class="events">
-      <% @user.created_events.each do |event| %>
+      <% @user.upcoming_events.each do |event| %>
         <li id="event-<%= event.id %>" class="well">
           <%= event.description %>
+          <%= link_to "See more", event_path(event), class:'pull-right'%>
+        </li>
+      <% end %>
+    </ol>
+    <h3>Past Events</h3>
+    <ol class="events">
+      <% @user.prev_events.each do |event| %>
+        <li id="event-<%= event.id %>" class="well">
+          <%= event.description %>
+          <%= link_to "See more", event_path(event), class:'pull-right'%>
         </li>
       <% end %>
     </ol>

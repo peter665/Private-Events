@@ -1,7 +1,45 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <p class='well'>
-      <%= @event.creator.name %>
-    </p>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= @event.description %>
+      </div>
+      <div class="panel-body">
+        <p>
+          List of Attendees:
+        </p>
+        <% @event.attendees.each do |attendee| %>
+          <ul>
+            <%= link_to attendee.name, user_path(attendee) %>
+          </ul>
+        <% end %>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-xs-4">
+            <% if current_user %>
+              <% unless current_user.attending? @event %>
+                <%= form_for(:events_atendees, url: events_atendees_path) do |f| %>
+                  <%= hidden_field_tag :attended_event_id, @event.id %>
+                  <%= f.submit "Attend", class: "btn btn-primary btn-large" %>
+                <% end %>
+              <% else %>
+                <%= form_for(current_user.events_atendees.find_by(attended_event_id: @event.id), method: :delete) do |f| %>
+                  <%= hidden_field_tag :attended_event_id, @event.id %>
+                  <%= f.submit "Cancel", class: "btn btn-danger btn-large" %>
+                <% end %>
+              <% end %>
+            <% else %>
+              Please log in if you want to signup for this event.
+            <% end %>
+          </div>
+          <div class="col-xs-8">
+            <p class="pull-right">
+              <%= @event.datum.to_time.strftime('%B %e, %Y at %l:%M %p') %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
